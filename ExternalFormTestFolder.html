@@ -1,0 +1,92 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="initial-scale=1.0">
+  <title>Decisions External Form Example</title>
+  <link rel="stylesheet" href="css/standardize.css">
+  <link rel="stylesheet" href="css/index-grid.css">
+  <link rel="stylesheet" href="css/index.css">
+  <script language="JavaScript">
+	// get the current URL
+	var url = window.location.toString();
+	//get the parameters
+	url.match(/\?(.+)$/);
+	var params = RegExp.$1;
+	// split up the query string and store in an
+	// associative array
+	var params = params.split("&");
+
+	var callbackurl = "";
+	var stepId = "";
+	var flowId = "";
+	var otherinputs = "";
+
+	for(var i=0;i<params.length;i++)
+	{
+		var tmp = params[i];
+		if (tmp.indexOf('step') == 0) {
+	 		stepId = tmp;
+		}
+		else if (tmp.indexOf('flow') == 0) {
+			flowId = tmp;
+		}
+		else if (tmp.indexOf('call') == 0) {
+			callbackurl = tmp;
+		}
+		else {
+			otherinputs += '<br/>          ' + tmp;
+		}
+	 }
+</script>
+<script type="text/javascript">
+function btnclick() {
+	var redirTo = callbackurl.substring(12) +
+	    	"&" +
+		flowId
+		+ "&"
+	      	+ stepId +
+		"&OutcomePath=" + document.getElementById('outname').value + "&" +  document.getElementById('extradata').value ;
+    alert('clicked ' + redirTo);
+    window.location.href = redirTo;
+
+}
+</script>
+</head>
+<body class="body index clearfix">
+  <div class="element element-1"></div>
+  <p class="text text-1">Decisions External Form Example</p>
+  <div class="text text-2">
+    <p>This web page is a simple HTML and javascript web page illustrating the use of Decisions flow engine using a completely custom build web</p>
+    <p>application to interact with the platform. </p>
+</div>
+  <div class="element element-2"></div>
+  <div class="text text-3">
+    <p>The following data were sent to this page from Decisions flow engine:</p>
+    <p>     1. <script>document.write(flowId)</script></p>
+    <p>     2. <script>document.write(stepId)</script></p>
+    <p>     3. <script>document.write(callbackurl)</script></p>
+    <p>     Other Parameters:<script>document.write(otherinputs)</script></p>
+</div>
+  <div class="element element-3"></div>
+  <div class="text text-4">
+    <p>In order to return to the Decisions flow engine you need to specify an "Outcome" to use in the callback url.  The callback url should be composed </p>
+    <p>from the parameters in the list above and must include the following:</p>
+    <p>     1. action=PostCustomFormDataToFlow</p>
+    <p>     2. flowTrackingId = Use the value shown above</p>
+    <p>     3. stepTrackingId = Use the value shown above</p>
+    <p>     4. OutcomeName = value</p>
+    <p>     5. Additional Data to Send (use name=value&)</p>
+    <p></p>
+    <p>Specify an outcome and click "Send to Decisions" when ready.</p>
+    <p>Outcome Name: <input type="text" id="outname"/>
+    <p>Additional Data: <textarea rows=10 id="extradata"></textarea>
+    </p>
+
+  </div>
+ <button class="_button" onclick='btnclick();'>
+    	<p>Send to Decisions</p>
+    	<p></p>
+    </button>
+</body>
+</html>
